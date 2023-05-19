@@ -33,18 +33,6 @@ public class UserController {
         return userService.signUp(signUpDTO,request);
     }
 
-    @PostMapping("/add-a-lot")
-    public List<ResponseDTO> addUsers(@RequestBody List<SignUpDTO>  signUpDTOList, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
-
-        List<ResponseDTO>  responseDTOList = new ArrayList<>();
-
-        for (SignUpDTO signUpDTO : signUpDTOList) {
-            responseDTOList.add(userService.signUp(signUpDTO, request));
-        }
-
-        return responseDTOList;
-    }
-
     @GetMapping("/verify")
     public String verifyUser(@Param("code") String code) {
 
