@@ -9,100 +9,84 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="housing")
+@Table(name = "housing")
 public class housing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String photo_one;
     private String photo_two;
-    private  String photo_three;
+    private String photo_three;
     private Date date_created;
-
     private String address;
     private String country;
     private String state;
     private String city;
     private String zipcode;
-
     private Integer number_of_travellers;
     private Integer number_of_bedrooms;
     private Integer number_of_beds;
     private Integer number_of_bathrooms;
-
     private String house_amenities;
-
     private String ad_title;
-
     private String description;
-
     private Integer user_id;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false) //many housing of one same apartment
-    @JoinColumn(name = "apartment_id", nullable = false)
-    Apartment apartment;
+    // @ManyToOne(fetch = FetchType.LAZY, optional = true) // many housing of one
+    // same apartment
+    // @JoinColumn(name = "apartment_id", nullable = true)
 
-
-
-    @OneToMany(mappedBy = "house",  cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "house", cascade = CascadeType.REMOVE)
     private Set<Constraint> constraints;
 
-    @OneToMany(mappedBy = "house",  cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "house", cascade = CascadeType.REMOVE)
     private Set<ServiceModel> serviceModels;
 
     public housing() {
     }
 
-    public housing(HousingDto housingDto, Apartment apartment) {
+    public housing(HousingDto housingDto) {
         this.photo_one = housingDto.getPhoto_one();
         this.photo_two = housingDto.getPhoto_two();
         this.photo_three = housingDto.getPhoto_three();
         this.date_created = new Date();
-        this.address=housingDto.getAddress();
-        this.country=housingDto.getCountry();
-        this.state=housingDto.getState();
-        this.city=housingDto.getCity();
-        this.zipcode=housingDto.getZipcode();
-        this.number_of_travellers=housingDto.getNumber_of_travellers();
-        this.number_of_bathrooms=housingDto.getNumber_of_bathrooms();
-        this.number_of_beds=housingDto.getNumber_of_beds();
-        this.number_of_bedrooms=housingDto.getNumber_of_bedrooms();
-        this.house_amenities=housingDto.getHouse_amenities();
-        this.ad_title=housingDto.getAd_title();
-        this.description=housingDto.getDescription();
-        this.user_id=housingDto.getUser_id();
-        this.apartment = apartment;
-
-
+        this.address = housingDto.getAddress();
+        this.country = housingDto.getCountry();
+        this.state = housingDto.getState();
+        this.city = housingDto.getCity();
+        this.zipcode = housingDto.getZipcode();
+        this.number_of_travellers = housingDto.getNumber_of_travellers();
+        this.number_of_bathrooms = housingDto.getNumber_of_bathrooms();
+        this.number_of_beds = housingDto.getNumber_of_beds();
+        this.number_of_bedrooms = housingDto.getNumber_of_bedrooms();
+        this.house_amenities = housingDto.getHouse_amenities();
+        this.ad_title = housingDto.getAd_title();
+        this.description = housingDto.getDescription();
+        this.user_id = housingDto.getUser_id();
     }
 
-
-
-    public housing(String photo_one, String photo_two, String photo_three, Date date_created, String address, String country, String state, String city, String zipcode, String description,Integer number_of_travellers,Integer number_of_bedrooms,Integer number_of_beds,Integer number_of_bathrooms,String house_amenities, String ad_title, int user_id, Apartment apartment) {
+    public housing(String photo_one, String photo_two, String photo_three, Date date_created, String address,
+            String country, String state, String city, String zipcode, String description, Integer number_of_travellers,
+            Integer number_of_bedrooms, Integer number_of_beds, Integer number_of_bathrooms, String house_amenities,
+            String ad_title, int user_id) {
         this.photo_one = photo_one;
         this.photo_two = photo_two;
         this.photo_three = photo_three;
         this.date_created = date_created;
-        this.address=address;
-        this.country=country;
-        this.state=state;
-        this.city=city;
-        this.zipcode=zipcode;
-        this.number_of_travellers=number_of_travellers;
-        this.number_of_bathrooms=number_of_bathrooms;
-        this.number_of_beds=number_of_beds;
-        this.number_of_bedrooms=number_of_bedrooms;
-        this.house_amenities=house_amenities;
-        this.ad_title=ad_title;
-        this.description=description;
-        this.user_id=user_id;
-        this.apartment = apartment;
-
+        this.address = address;
+        this.country = country;
+        this.state = state;
+        this.city = city;
+        this.zipcode = zipcode;
+        this.number_of_travellers = number_of_travellers;
+        this.number_of_bathrooms = number_of_bathrooms;
+        this.number_of_beds = number_of_beds;
+        this.number_of_bedrooms = number_of_bedrooms;
+        this.house_amenities = house_amenities;
+        this.ad_title = ad_title;
+        this.description = description;
+        this.user_id = user_id;
     }
-
-
 
     public String getCountry() {
         return country;
@@ -192,14 +176,6 @@ public class housing {
         this.date_created = date_created;
     }
 
-    public Apartment getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(Apartment apartment) {
-        this.apartment = apartment;
-    }
-
     public int getUser_id() {
         return user_id;
     }
@@ -256,8 +232,6 @@ public class housing {
         this.ad_title = ad_title;
     }
 
-
-    //DTO model that would be sent to the frontend for display
-
+    // DTO model that would be sent to the frontend for display
 
 }

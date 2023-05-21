@@ -3,7 +3,6 @@ package com.homeSwap.homeswapbackend.service;
 import com.homeSwap.homeswapbackend.DTO.ConstraintDTO;
 import com.homeSwap.homeswapbackend.DTO.HousingDto;
 import com.homeSwap.homeswapbackend.DTO.RatingDTO;
-import com.homeSwap.homeswapbackend.model.Apartment;
 import com.homeSwap.homeswapbackend.model.Constraint;
 import com.homeSwap.homeswapbackend.model.housing;
 import com.homeSwap.homeswapbackend.repository.ConstraintRepository;
@@ -22,15 +21,14 @@ public class constraintService {
     @Autowired
     ConstraintRepository constraintRepo;
 
-
     public ConstraintDTO getDtoFromConstraint(Constraint constraint) {
-
 
         ConstraintDTO constraintDTO = new ConstraintDTO(constraint);
         return constraintDTO;
     }
+
     public static Constraint getConstraintFromDto(ConstraintDTO constraintDto, housing house) {
-        Constraint con= new Constraint(constraintDto, house);
+        Constraint con = new Constraint(constraintDto, house);
         return con;
     }
 
@@ -41,7 +39,7 @@ public class constraintService {
 
     public List<ConstraintDTO> listConstraint() {
         List<Constraint> constraints = constraintRepo.findAll();
-        List<ConstraintDTO> constraintDtoss= new ArrayList<>();
+        List<ConstraintDTO> constraintDtoss = new ArrayList<>();
         for (Constraint con : constraints) {
 
             constraintDtoss.add(getDtoFromConstraint(con));
@@ -50,8 +48,7 @@ public class constraintService {
 
     }
 
-
-    public void deleteConstraint(Integer constraintID){
+    public void deleteConstraint(Integer constraintID) {
         constraintRepo.deleteById(constraintID);
 
     }
@@ -62,11 +59,11 @@ public class constraintService {
         constraintRepo.save(constraint);
     }
 
-    public Optional<Constraint> getConstraintById(Integer constraintID){
+    public Optional<Constraint> getConstraintById(Integer constraintID) {
         return constraintRepo.findById(constraintID);
     }
 
-    //Getting constraints by id
+    // Getting constraints by id
     public ConstraintDTO getConstraintById2(Integer id) {
         Constraint constraint = constraintRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("housing not found"));
@@ -78,10 +75,9 @@ public class constraintService {
         return con;
     }
 
+    public List<ConstraintDTO> getConstrainsByHouseId(Integer houseID) {
 
-    public List<ConstraintDTO> getConstrainsByHouseId(Integer houseID){
-
-        //return ratingRepository.getRatingsByHouseID(houseID);
+        // return ratingRepository.getRatingsByHouseID(houseID);
         List<Tuple> constraints = constraintRepo.getConstraintsByHouseID(houseID);
         return constraints.stream()
                 .map(this::mapRatingTupleToDTO)
@@ -89,12 +85,12 @@ public class constraintService {
 
     }
 
-    //This method extracts the values of the tuple using the get() method and sets them in a new RatingDTO object
+    // This method extracts the values of the tuple using the get() method and sets
+    // them in a new RatingDTO object
     private ConstraintDTO mapRatingTupleToDTO(Tuple ratingTuple) {
         Integer id = ratingTuple.get("id", Integer.class);
         String constraintText = ratingTuple.get("conText", String.class);
-        Integer houseID=ratingTuple.get("houseID", Integer.class);
-
+        Integer houseID = ratingTuple.get("houseID", Integer.class);
 
         // Create a new RatingDTO object and set the values
         ConstraintDTO constraintDTO = new ConstraintDTO();
@@ -104,6 +100,5 @@ public class constraintService {
 
         return constraintDTO;
     }
-
 
 }

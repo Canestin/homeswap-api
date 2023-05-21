@@ -17,7 +17,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/user")
 
@@ -26,17 +25,17 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
     @PostMapping("/signup")
-    public ResponseDTO signup(@RequestBody SignUpDTO signUpDTO, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
+    public ResponseDTO signup(@RequestBody SignUpDTO signUpDTO, HttpServletRequest request)
+            throws UnsupportedEncodingException, MessagingException {
 
-        return userService.signUp(signUpDTO,request);
+        return userService.signUp(signUpDTO, request);
     }
 
     @GetMapping("/verify")
     public String verifyUser(@Param("code") String code) {
 
-        boolean verified=userService.verify(code);
+        boolean verified = userService.verify(code);
         if (verified) {
             return "verify_success";
         } else {
@@ -45,31 +44,22 @@ public class UserController {
     }
 
     @PostMapping("/sign_in")
-   public SignInResponseDTO signin(@RequestBody SignInDTO signInDTO){
-
+    public SignInResponseDTO signin(@RequestBody SignInDTO signInDTO) {
         return userService.signIn(signInDTO);
     }
 
     @GetMapping("/")
-
     public ResponseEntity<List<SignUpDTO>> getUsers() {
-
         List<SignUpDTO> body = userService.listUsers();
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
-
-    @GetMapping(value="/{Id}")
+    @GetMapping(value = "/{Id}")
     public SignUpDTO UserByID(@PathVariable(value = "Id") Integer id) {
         return userService.getUserById(id);
     }
 
-
-    //testing getuserById again
-
-
-
-
+    // testing getuserById again
 
     @PostMapping("/update/{userID}")
     public ResponseEntity<apiResponse> updateUser(@PathVariable("userID") Integer userID, @RequestBody User user) {

@@ -2,7 +2,6 @@ package com.homeSwap.homeswapbackend.service;
 
 import com.homeSwap.homeswapbackend.DTO.BookingDTO;
 import com.homeSwap.homeswapbackend.DTO.HousingDto;
-import com.homeSwap.homeswapbackend.model.Apartment;
 import com.homeSwap.homeswapbackend.model.Rating;
 import com.homeSwap.homeswapbackend.model.User;
 import com.homeSwap.homeswapbackend.model.housing;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class housingService {
 
-    //creating an apartment business logic
+    // creating an apartment business logic
     @Autowired
     HousingRepository houseRepo;
 
@@ -35,34 +34,28 @@ public class housingService {
     UserRepository userRepository;
 
     @Autowired
-    ApartmentRepo apartRepo;
-
-    @Autowired
     RatingRepository ratingRepository;
 
-
     public HousingDto getDtoFromHousing(housing house) {
-
 
         HousingDto houseDto = new HousingDto(house);
         return houseDto;
     }
 
-    public static housing getHouseFromDto(HousingDto houseDto, Apartment apartment) {
-        housing house = new housing(houseDto, apartment);
+    public static housing getHouseFromDto(HousingDto houseDto) {
+        housing house = new housing(houseDto);
         return house;
     }
 
-    public void addHouse(HousingDto houseDto, Apartment apartment) {
-        housing house = getHouseFromDto(houseDto, apartment);
+    public void addHouse(HousingDto houseDto) {
+        housing house = getHouseFromDto(houseDto);
         houseRepo.save(house);
     }
 
-    //TESTING ADD HOUSING
+    // TESTING ADD HOUSING
     public housing addHouse2(Integer userId, Integer apartId) {
         User user = userRepository.findById(userId).orElse(null);
-        Apartment apartment = apartRepo.findById(apartId).orElse(null);
-        if (user == null || apartment == null) {
+        if (user == null /* @ToReplace || apartment == null */) {
             return null;
         }
         housing house = new housing();
@@ -84,22 +77,18 @@ public class housingService {
         house.setDescription(house.getDescription());
         house.setUser_id(house.getUser_id());
 
-        house.setApartment(apartment);
         houseRepo.save(house);
 
         return house;
     }
 
-
     public List<HousingDto> listHousing() {
         List<housing> houses = houseRepo.findAll();
-        List<HousingDto> houseDtoss= new ArrayList<>();
+        List<HousingDto> houseDtoss = new ArrayList<>();
         for (housing house : houses) {
-
             houseDtoss.add(getDtoFromHousing(house));
         }
         return houseDtoss;
-
     }
 
     public HousingDto getHousesById(Integer id) {
@@ -125,50 +114,37 @@ public class housingService {
         housingDto.setHouse_amenities(house.getHouse_amenities());
         housingDto.setAd_title(house.getAd_title());
         housingDto.setUser_id(house.getUser_id());
-        housingDto.setApartmentId(house.getApartment().getId());
 
         return housingDto;
     }
 
-
-
-    public void updateHouse(Integer houseID, HousingDto housingDto, Apartment apartment) {
-        housing house = getHouseFromDto(housingDto, apartment);
+    public void updateHouse(Integer houseID, HousingDto housingDto) {
+        housing house = getHouseFromDto(housingDto);
         house.setId(houseID);
         houseRepo.save(house);
     }
 
-    public Optional<housing> getHouseById(Integer houseId){
+    public Optional<housing> getHouseById(Integer houseId) {
         return houseRepo.findById(houseId);
     }
 
-
-    //without optional
-    public housing getHouseByID(Integer houseId){
+    // without optional
+    public housing getHouseByID(Integer houseId) {
         return houseRepo.findById(houseId).orElseThrow(() -> new RuntimeException("House not found"));
 
     }
 
-
     @Transactional
-    public void deleteHouse(Integer houseID){
-
+    public void deleteHouse(Integer houseID) {
         houseRepo.deleteById(houseID);
-
     }
 
-    //TESTING
+    // TESTING
     public Optional<User> getUserById(Integer id) {
         return userRepository.findById(id);
     }
 
-    public Apartment getApartmentById(Integer id) {
-        return apartRepo.findById(id).orElse(null);
-    }
-
-
-
-//Rating a house
+    // Rating a house
     public Rating rateHouse(Integer userId, Integer houseId, int rating) {
         User user = new User();
         user.setId(userId);
@@ -181,25 +157,22 @@ public class housingService {
         return ratingRepository.save(ratings);
     }
 
-    //get ratings for a house
+    // get ratings for a house
     public Optional<Rating> getRatingsForHouse(Integer houseId) {
         housing house = getHouseByID(houseId);
         return ratingRepository.findAllByHouse(house);
     }
 
-//This would list all housings added by a user
-    public List<HousingDto> getHousingsByUId(Integer userID){
-
-
+    // This would list all housings added by a user
+    public List<HousingDto> getHousingsByUId(Integer userID) {
         List<Tuple> housings = houseRepo.getHousingByUserID(userID);
         return housings.stream()
                 .map(this::mapHousingTupleToDTO)
                 .collect(Collectors.toList());
-
     }
 
-
-    //This method extracts the values of the tuple using the get() method and sets them in a new RatingDTO object
+    // This method extracts the values of the tuple using the get() method and sets
+    // them in a new RatingDTO object
     private HousingDto mapHousingTupleToDTO(Tuple housingTuple) {
         Integer id = housingTuple.get("id", Integer.class);
         String photoOne = housingTuple.get("photoOne", String.class);
@@ -219,7 +192,6 @@ public class housingService {
         String adsTitle = housingTuple.get("adTitle", String.class);
         String description = housingTuple.get("Descriptions", String.class);
         Integer userID = housingTuple.get("userID", Integer.class);
-        Integer apartID = housingTuple.get("apartID", Integer.class);
 
         // Create a new HousingDTO object and set the values
         HousingDto housingDto = new HousingDto();
@@ -241,10 +213,7 @@ public class housingService {
         housingDto.setAd_title(adsTitle);
         housingDto.setDescription(description);
         housingDto.setUser_id(userID);
-        housingDto.setApartmentId(apartID);
 
         return housingDto;
     }
-
-
 }
