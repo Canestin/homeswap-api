@@ -1,5 +1,7 @@
 package com.homeSwap.homeswapbackend.model;
 
+import com.homeSwap.homeswapbackend.DTO.BookingDTO;
+import com.homeSwap.homeswapbackend.DTO.MessageDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -10,7 +12,7 @@ import java.util.Date;
 public class Message {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer id;
 
     @ManyToOne
@@ -23,15 +25,28 @@ public class Message {
 
     private String textContent;
 
-    private LocalDateTime createdAt;
+    private Date createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "channel_id")
+    Channel channel;
 
     public Message() {
     }
 
-    public Message(User sender, User recipient, String textContent, LocalDateTime createdAt) {
+    public Message(MessageDTO messageDTO, User senderID, User receiverID, Channel channel) {
+        this.sender=senderID;
+        this.recipient=receiverID;
+        this.textContent = messageDTO.getTextContent();
+        this.createdAt=new Date();
+        this.channel = channel;
+
+    }
+    public Message(User sender, User recipient, String textContent, Channel channel, Date createdAt) {
         this.sender = sender;
         this.recipient = recipient;
         this.textContent = textContent;
+        this.channel=channel;
         this.createdAt = createdAt;
     }
 
@@ -67,11 +82,19 @@ public class Message {
         this.textContent = textContent;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
     }
 }
