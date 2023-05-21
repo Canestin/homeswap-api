@@ -8,6 +8,7 @@ import com.homeSwap.homeswapbackend.model.housing;
 import com.homeSwap.homeswapbackend.repository.*;
 import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +54,7 @@ public class housingService {
     }
 
     // TESTING ADD HOUSING
-    public housing addHouse2(Integer userId, Integer apartId) {
+    public housing addHouse2(Integer userId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null /* @ToReplace || apartment == null */) {
             return null;
@@ -68,6 +69,7 @@ public class housingService {
         house.setState(house.getState());
         house.setCity(house.getCity());
         house.setZipcode(house.getZipcode());
+        house.setCategory(house.getCategory());
         house.setNumber_of_travellers(house.getNumber_of_travellers());
         house.setNumber_of_bathrooms(house.getNumber_of_bathrooms());
         house.setNumber_of_bedrooms(house.getNumber_of_bedrooms());
@@ -106,6 +108,7 @@ public class housingService {
         housingDto.setState(house.getState());
         housingDto.setCity(house.getCity());
         housingDto.setZipcode(house.getZipcode());
+        housingDto.setCategory(house.getCategory());
         housingDto.setDescription(house.getDescription());
         housingDto.setNumber_of_travellers(house.getNumber_of_travellers());
         housingDto.setNumber_of_bathrooms(house.getNumber_of_bathrooms());
@@ -184,6 +187,7 @@ public class housingService {
         String state = housingTuple.get("stat", String.class);
         String city = housingTuple.get("cit", String.class);
         String zipcode = housingTuple.get("zip", String.class);
+        String category = housingTuple.get("category", String.class);
         Integer NumberOfTravellers = housingTuple.get("numOfTravel", Integer.class);
         Integer NumberOfBedrooms = housingTuple.get("numOfBedroom", Integer.class);
         Integer NumberOfBeds = housingTuple.get("numOfBeds", Integer.class);
@@ -205,6 +209,7 @@ public class housingService {
         housingDto.setState(state);
         housingDto.setCity(city);
         housingDto.setZipcode(zipcode);
+        housingDto.setCategory(category);
         housingDto.setNumber_of_travellers(NumberOfTravellers);
         housingDto.setNumber_of_bathrooms(NumberOfBathrooms);
         housingDto.setNumber_of_bedrooms(NumberOfBedrooms);

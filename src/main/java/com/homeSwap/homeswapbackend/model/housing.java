@@ -23,6 +23,7 @@ public class housing {
     private String state;
     private String city;
     private String zipcode;
+    private String category;
     private Integer number_of_travellers;
     private Integer number_of_bedrooms;
     private Integer number_of_beds;
@@ -55,6 +56,7 @@ public class housing {
         this.state = housingDto.getState();
         this.city = housingDto.getCity();
         this.zipcode = housingDto.getZipcode();
+        this.category = housingDto.getCategory();
         this.number_of_travellers = housingDto.getNumber_of_travellers();
         this.number_of_bathrooms = housingDto.getNumber_of_bathrooms();
         this.number_of_beds = housingDto.getNumber_of_beds();
@@ -66,7 +68,8 @@ public class housing {
     }
 
     public housing(String photo_one, String photo_two, String photo_three, Date date_created, String address,
-            String country, String state, String city, String zipcode, String description, Integer number_of_travellers,
+            String country, String state, String city, String zipcode, String category, String description,
+            Integer number_of_travellers,
             Integer number_of_bedrooms, Integer number_of_beds, Integer number_of_bathrooms, String house_amenities,
             String ad_title, int user_id) {
         this.photo_one = photo_one;
@@ -78,6 +81,7 @@ public class housing {
         this.state = state;
         this.city = city;
         this.zipcode = zipcode;
+        this.category = category;
         this.number_of_travellers = number_of_travellers;
         this.number_of_bathrooms = number_of_bathrooms;
         this.number_of_beds = number_of_beds;
@@ -126,6 +130,14 @@ public class housing {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getDescription() {
