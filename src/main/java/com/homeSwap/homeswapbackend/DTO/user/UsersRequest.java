@@ -5,42 +5,21 @@ import java.util.Date;
 public class UsersRequest {
 
     private String firstName;
-
-
     private String lastName;
-
-
-    private String  email;
-
-
+    private String email;
     private String password;
-
-
     private String phoneNumber;
-
-
     private String profilePicture;
-
-
     private String verificationCode;
-
-
     private int verificationStatus;
-
-
     private String userRole;
-
-
     private Date createdDate;
-
     private String country;
     private String state;
-    private  String city;
-
+    private String city;
     private String postal_code;
 
     // getters and setters
-
 
     public String getFirstName() {
         return firstName;
