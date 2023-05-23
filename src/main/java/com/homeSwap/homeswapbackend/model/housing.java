@@ -30,6 +30,8 @@ public class housing {
     private Integer number_of_bathrooms;
     private String house_amenities;
     private String ad_title;
+
+    @Column(length = 700)
     private String description;
     private Integer user_id;
 

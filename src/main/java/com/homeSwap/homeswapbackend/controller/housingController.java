@@ -46,6 +46,15 @@ public class housingController {
         return new ResponseEntity<apiResponse>(new apiResponse(true, "created a new house"), HttpStatus.CREATED);
     }
 
+    @PostMapping("/add-many")
+    public ResponseEntity<apiResponse> createHouses(@RequestBody List<HousingDto> houseDtos) {
+        for (HousingDto houseDto : houseDtos) {
+            houseService.addHouse(houseDto);
+        }
+
+        return new ResponseEntity<apiResponse>(new apiResponse(true, "created multiple houses"), HttpStatus.CREATED);
+    }
+
     @GetMapping(value = "/{Id}")
     public HousingDto HouseByID(@PathVariable(value = "Id") Integer id) {
         return houseService.getHousesById(id);

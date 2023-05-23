@@ -6,27 +6,17 @@ import java.util.Date;
 
 public class MessageDTO {
 
-
     private Integer id;
-
-
     private Integer sender_id;
-
-
     private Integer recipient_id;
-
     private String textContent;
-
     private Date createdAt;
-
     private Integer channel_id;
-
 
     public MessageDTO() {
     }
 
-    public MessageDTO(Message message)
-    {
+    public MessageDTO(Message message) {
         this.setId(message.getId());
         this.setSender_id(message.getSender().getId());
         this.setRecipient_id(message.getRecipient().getId());
@@ -34,7 +24,6 @@ public class MessageDTO {
         this.setCreatedAt(message.getCreatedAt());
         this.setChannel_id(message.getChannel().getId());
     }
-
 
     public MessageDTO(Integer sender_id, Integer recipient_id, String textContent, Date createdAt, Integer channel_id) {
         this.sender_id = sender_id;
