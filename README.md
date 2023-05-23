@@ -86,7 +86,7 @@ Here are the main routes exposed by the API :
 | POST   | /houses                       | Add a new accommodation                          |
 | GET    | /houses/{houseId}             | Retrieve accommodation details                   |
 | GET    | /houses                       | Recover all accommodations                       |
-| PUT    | /houses/{houseId}             | Mettre à jour les détails d'un logement          |
+| PUT    | /houses/{houseId}             | Update listing details                           |
 | DELETE | /houses/{houseId}             | Delete a slot                                    |
 | POST   | /reservations                 | Create a new reservation                         |
 | GET    | /reservations/{reservationId} | Retrieve booking details                         |
