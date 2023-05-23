@@ -1,10 +1,9 @@
 package com.homeSwap.homeswapbackend.model;
 
-import com.homeSwap.homeswapbackend.DTO.BookingDTO;
 import com.homeSwap.homeswapbackend.DTO.MessageDTO;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+
 import java.util.Date;
 
 @Entity
