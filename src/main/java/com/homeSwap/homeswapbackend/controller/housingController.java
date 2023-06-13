@@ -1,6 +1,5 @@
 package com.homeSwap.homeswapbackend.controller;
 
-import com.homeSwap.homeswapbackend.DTO.BookingDTO;
 import com.homeSwap.homeswapbackend.DTO.HousingDto;
 import com.homeSwap.homeswapbackend.checkNull.Helper;
 import com.homeSwap.homeswapbackend.model.User;
@@ -12,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,15 +62,29 @@ public class housingController {
         return houseService.getHousesById(id);
     }
 
-    // testing
-    // @GetMapping(value = "/{Id}")
-    // public ResponseEntity<HousingDto> getApartmentByID(@PathVariable(value =
-    // "Id") Integer id) {
-    // HousingDto house = houseService.getHousesById(id);
-    // return ResponseEntity.ok().body(house);
-    // }
+    @PostMapping("/upload-images")
+    public String uploadImages(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
+            @RequestParam("file3") MultipartFile file3) {
 
-    @PostMapping("/update/{houseID}")
+        ClassLoader classLoader = getClass().getClassLoader();
+        String housesPath = new File(classLoader.getResource("static/images/houses/").getFile()).getAbsolutePath();
+
+        MultipartFile[] files = { file1, file2, file3 };
+        for (MultipartFile file : files) {
+
+            try {
+                String filePath = housesPath + File.separator + file.getOriginalFilename();
+                System.out.println(filePath);
+                file.transferTo(new File(filePath));
+            } catch (IOException e) {
+                return "Image upload failed: " + e.getMessage();
+            }
+        }
+
+        return "Images uploaded successfully.";
+    }
+
+    @PutMapping("/{houseID}")
     public ResponseEntity<apiResponse> updateHousing(@PathVariable("houseID") Integer houseID,
             @RequestBody HousingDto housingDto) {
 

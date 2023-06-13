@@ -29,6 +29,8 @@ public class housing {
     private Integer number_of_bathrooms;
     private String house_amenities;
     private String ad_title;
+    private Date start_date;
+    private Date end_date;
 
     @Column(length = 700)
     private String description;
@@ -66,6 +68,8 @@ public class housing {
         this.ad_title = housingDto.getAd_title();
         this.description = housingDto.getDescription();
         this.user_id = housingDto.getUser_id();
+        this.start_date = generateRandomDate("2023-06-15", "2023-09-15");
+        this.end_date = generateRandomDate("2023-06-15", "2023-09-15");
     }
 
     public housing(String photo_one, String photo_two, String photo_three, Date date_created, String address,
@@ -91,6 +95,8 @@ public class housing {
         this.ad_title = ad_title;
         this.description = description;
         this.user_id = user_id;
+        this.start_date = generateRandomDate("2023-06-15", "2023-09-15");
+        this.end_date = generateRandomDate("2023-06-15", "2023-09-15");
     }
 
     public String getCountry() {
@@ -245,6 +251,32 @@ public class housing {
         this.ad_title = ad_title;
     }
 
-    // DTO model that would be sent to the frontend for display
+    public Date getStart_date() {
+        return start_date;
+    }
+
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
+    }
+
+    public Date getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(Date end_date) {
+        this.end_date = end_date;
+    }
+
+    private Date generateRandomDate(String startDateString, String endDateString) {
+        // Convert start and end date strings to Date objects
+        Date startDate = java.sql.Date.valueOf(startDateString);
+        Date endDate = java.sql.Date.valueOf(endDateString);
+
+        // Generate a random timestamp between start and end date
+        long randomTimestamp = startDate.getTime() + (long) (Math.random() * (endDate.getTime() - startDate.getTime()));
+
+        // Return the random date
+        return new Date(randomTimestamp);
+    }
 
 }
